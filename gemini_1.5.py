@@ -12,7 +12,7 @@ model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest")
 print("Đã kết nối")
 convo = model.start_chat(history=[])
 print("Ghi chú: Bạn có thể nhập exit hoặc quit để thoát trò chuyện")
-print("=================================")
+print("====================================")
 while True:
     user_input = input("Nhập câu hỏi (chỉ bằng tiếng Anh): ")
     convo.send_message(user_input)
