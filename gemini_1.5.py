@@ -18,7 +18,7 @@ while True:
     print("Gemini đang trả lời... chờ xíu nhé!")
     convo.send_message(user_input)
     print("Gemini đã trả lời:",convo.last.text)
-    print("____________________")
+    print("___________________________")
 
     if user_input.lower() == "quit" or user_input.lower() == "exit":
         break
