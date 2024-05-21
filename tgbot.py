@@ -9,11 +9,11 @@ from aiogram.types import ParseMode, ChatActions
 from aiogram.utils import executor
 
 # Create the bot object.
-bot = Bot(token='7179060945:AAFOV7WIAF8nFPkBfEaKeULcxMqL86MBvL0')
+bot = Bot(token='telebotapi')
 dp = Dispatcher(bot)
 
 # Use os.getenv for the Google API key
-GOOGLE_API_KEY = os.getenv('AIzaSyDvAnB1ckrFY7CZPfL9Y7ThEEoy7_nAZQg')
+GOOGLE_API_KEY = os.getenv('googleapi')
 
 # Configure the API key for Gemini
 genai.configure(api_key=GOOGLE_API_KEY)
