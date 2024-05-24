@@ -29,8 +29,8 @@ def scan_ip(ip, port):
 
 def connect_rdp(ip, username, password):
     try:
-        # Gọi lệnh xfreerdp để kiểm tra kết nối RDP
-        cmd = f"xfreerdp /v:{ip} /u:{username} /p:{password} /cert:ignore"
+        # Sử dụng xvfb-run để chạy xfreerdp trong môi trường ảo và thêm tùy chọn +clipboard
+        cmd = f"xvfb-run -a xfreerdp /v:{ip} /u:{username} /p:{password} /cert:ignore +clipboard"
         result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
         
         # Kiểm tra kết quả, nếu thành công thì trả về thông tin đăng nhập
