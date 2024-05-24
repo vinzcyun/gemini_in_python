@@ -5,7 +5,6 @@ import subprocess
 
 def install_xvfb():
     try:
-        # Cài đặt xvfb nếu chưa được cài đặt
         cmd = "sudo apt install xvfb -y"
         result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
         if result.returncode == 0:
@@ -17,7 +16,6 @@ def install_xvfb():
 
 def install_freerdp():
     try:
-        # Cài đặt freerdp2-x11
         cmd = "sudo apt install freerdp2-x11 -y"
         result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
         if result.returncode == 0:
@@ -40,32 +38,31 @@ def scan_ip(ip, port):
         print(f"Lỗi khi quét IP {ip}: {e}")
         return None
 
-def connect_rdp(ip, username, password):
+def connect_rdp(ip, port, username, password):
     try:
-        # Sử dụng xvfb-run để chạy xfreerdp trong môi trường ảo và thêm tùy chọn +clipboard
         cmd = f"xvfb-run -a xfreerdp /v:{ip}:{port} /u:{username} /p:{password} /cert:ignore +clipboard"
         result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
-        
-        # Kiểm tra kết quả, nếu thành công thì trả về thông tin đăng nhập
         if result.returncode == 0:
-            return f"IP: {ip}:{port} - User: {username}, Password: {password}"
-        print(f"Lỗi khi kết nối RDP đến IP {ip}: {result.stderr}")
+            return f"IP: {ip} - Port: {port} - User: {username}, Password: {password}"
+        print(f"Lỗi khi kết nối RDP đến IP {ip} port {port}: {result.stderr}")
         return None
     except Exception as e:
-        print(f"Lỗi khi kết nối RDP đến IP {ip}: {e}")
+        print(f"Lỗi khi kết nối RDP đến IP {ip} port {port}: {e}")
         return None
 
 def main():
     install_xvfb()
     install_freerdp()
     
-    port = input("Nhập cổng: ")
     start_ip = input("Nhập địa chỉ IP bắt đầu: ")
     end_ip = input("Nhập địa chỉ IP kết thúc: ")
+    port = int(input("Nhập cổng RDP (mặc định là 3389): ") or 3389)
     username = input("Nhập tên người dùng RDP: ")
     password = input("Nhập mật khẩu RDP: ")
+    
     start_ip_obj = ipaddress.ip_address(start_ip)
     end_ip_obj = ipaddress.ip_address(end_ip)
+    
     num_ips = int(end_ip_obj) - int(start_ip_obj) + 1
 
     print(f"Số lượng IP cần phải quét: {num_ips}")  
@@ -85,7 +82,7 @@ def main():
                 successful_ips.append(result)
 
     for ip in successful_ips:
-        result = connect_rdp(ip, username, password)
+        result = connect_rdp(ip, port, username, password)
         if result:
             print(result)
 
