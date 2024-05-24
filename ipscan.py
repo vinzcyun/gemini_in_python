@@ -24,6 +24,7 @@ def scan_ip(ip, port):
                 return ip
             return None
     except Exception as e:
+        print(f"Lỗi khi quét IP {ip}: {e}")
         return None
 
 def connect_rdp(ip, username, password):
@@ -35,8 +36,10 @@ def connect_rdp(ip, username, password):
         # Kiểm tra kết quả, nếu thành công thì trả về thông tin đăng nhập
         if result.returncode == 0:
             return f"IP: {ip} - User: {username}, Password: {password}"
+        print(f"Lỗi khi kết nối RDP đến IP {ip}: {result.stderr}")
         return None
     except Exception as e:
+        print(f"Lỗi khi kết nối RDP đến IP {ip}: {e}")
         return None
 
 def main():
@@ -74,4 +77,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
