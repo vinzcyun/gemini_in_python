@@ -43,12 +43,12 @@ def scan_ip(ip, port):
 def connect_rdp(ip, username, password):
     try:
         # Sử dụng xvfb-run để chạy xfreerdp trong môi trường ảo và thêm tùy chọn +clipboard
-        cmd = f"xvfb-run -a xfreerdp /v:{ip} /u:{username} /p:{password} /cert:ignore +clipboard"
+        cmd = f"xvfb-run -a xfreerdp /v:{ip}:{port} /u:{username} /p:{password} /cert:ignore +clipboard"
         result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
         
         # Kiểm tra kết quả, nếu thành công thì trả về thông tin đăng nhập
         if result.returncode == 0:
-            return f"IP: {ip} - User: {username}, Password: {password}"
+            return f"IP: {ip}:{port} - User: {username}, Password: {password}"
         print(f"Lỗi khi kết nối RDP đến IP {ip}: {result.stderr}")
         return None
     except Exception as e:
@@ -59,7 +59,7 @@ def main():
     install_xvfb()
     install_freerdp()
     
-    port = 3389  # Cổng RDP mặc định
+    port = input("Nhập cổng: ")
     start_ip = input("Nhập địa chỉ IP bắt đầu: ")
     end_ip = input("Nhập địa chỉ IP kết thúc: ")
     username = input("Nhập tên người dùng RDP: ")
