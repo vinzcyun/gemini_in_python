@@ -16,6 +16,7 @@ def install_freerdp():
         print(f"Lỗi khi cài đặt freerdp2-x11: {e}")
 
 def scan_ip(ip, port):
+    print(f"Đang quét IP: {ip}")
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             sock.settimeout(1)
@@ -29,8 +30,8 @@ def scan_ip(ip, port):
 
 def connect_rdp(ip, username, password):
     try:
-        # Sử dụng xvfb-run để chạy xfreerdp trong môi trường ảo và thêm tùy chọn +clipboard
-        cmd = f"xvfb-run -a xfreerdp /v:{ip} /u:{username} /p:{password} /cert:ignore +clipboard"
+        # Thêm tùy chọn +clipboard vào lệnh xfreerdp
+        cmd = f"xfreerdp /v:{ip} /u:{username} /p:{password} /cert:ignore +clipboard"
         result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
         
         # Kiểm tra kết quả, nếu thành công thì trả về thông tin đăng nhập
